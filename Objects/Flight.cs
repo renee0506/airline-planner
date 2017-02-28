@@ -127,5 +127,31 @@ namespace AirlinePlanner
         conn.Close();
       }
     }
+
+    public static Flight Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM flight WHERE id = @FligthId;", conn);
+      SqlParameter flightIdParameter = new SqlParameter("@FlightId", id.ToString());
+      cmd.Parameters.Add(flightIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundFlightId = 0;
+      string foundFlightNumber = null;
+      DateTime foundDateTime = new DateTime();
+      string foundStatus = null;
+
+      while (rdr.Read())
+      {
+        foundFlightId = rdr.GetInt32(0);
+        foundFlightNumber = rdr.GetString(1);
+        foundDateTime = rdr.GetDateTime(2);
+        foundStatus = rdr.GetStatus(3);
+      }
+
+      Flight foundFLight = new Flight(foundFlightNumber)
+    }
   }
 }

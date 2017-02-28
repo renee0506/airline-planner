@@ -64,5 +64,17 @@ namespace AirlinePlanner
       Assert.Equal(testId, result);
     }
 
+    [Fact]
+    public void Test_Find_FIndsTaskInDatabase()
+    {
+      DateTime date1 = new DateTime(2008, 4, 10);
+      Flight testFlight = new Flight("B20", date1, "Delayed");
+
+      testFlight.Save();
+      Flight foundFlight = Flight.Find(testFlight.GetId());
+
+      Assert.Equal(testFlight, foundFlight);
+    }
+
   }
 }
