@@ -97,6 +97,35 @@ namespace AirlinePlanner
       return allFlights;
     }
 
-    public static
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO flight (flight_number, date_time, status) OUTPUT INSERTED.id VALUES (@FlightNumber, @FlightDateTime, @FlightStatus);", conn);
+
+      SqlParameter FlightNumberParameter = new SqlParameter("@FlightNumber", this.GetFlightNumber());
+      SqlParameter FlightDateTimeParameter = new SqlParameter("@FlightDateTime", this.GetDate());
+      SqlParameter FlightStatusParameter = new SqlParameter("@FlightStatus", this.GetStatus());
+
+      cmd.Parameters.Add(FlightNumberParameter);
+      cmd.Parameters.Add(FlightDateTimeParameter);
+      cmd.Parameters.Add(FlightStatusParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while (rdr.Read())
+      {
+        this._id = rdr.GetInt32(0);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
   }
 }

@@ -58,7 +58,7 @@ namespace AirlinePlanner
 
       testFlight.Save();
       Flight savedFlight = Flight.GetAll()[0];
-      int result = savedFlght.GetId();
+      int result = savedFlight.GetId();
       int testId = testFlight.GetId();
 
       Assert.Equal(testId, result);
